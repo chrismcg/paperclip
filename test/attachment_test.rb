@@ -286,6 +286,19 @@ class AttachmentTest < Test::Unit::TestCase
         end
       end
 
+      context "when using a different thumbnail class" do
+        should "call .make on the assigned thumbnail class" do
+          fumbnail = stub('fumbnail')
+          fumbnail.expects(:make)
+          attachment = Paperclip::Attachment.new(:avatar,
+                                    @instance,
+                                    :styles => { :large  => ["400x400", :png] },
+                                    :default_style => :large,
+                                    :thumbnail_class => fumbnail
+                                    )
+          attachment.assign(@file)
+        end
+      end
     end
 
     context "when trying a nonexistant storage type" do
